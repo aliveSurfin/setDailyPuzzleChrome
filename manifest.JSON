@@ -1,0 +1,23 @@
+{
+    "name": "SetSolver",
+    "version": "1.0",
+    "description": "solving set",
+    "permissions": ["tabs", "*://*.setgame.com/set/puzzle*", "storage"],
+    "content_scripts": [{
+            "matches": ["*://*.setgame.com/set/puzzle*"],
+            "js": ["jquery-3.4.1.slim.min.js", "solve.js"]
+
+        },
+        {
+            "matches": ["*://*.setgame.com/you-completed-todays-puzzle*"],
+            "js": ["submit.js"]
+
+        }
+    ],
+
+    "manifest_version": 2,
+    "web_accessible_resources": ["inject.js"],
+
+    "options_page": "options.html"
+
+}

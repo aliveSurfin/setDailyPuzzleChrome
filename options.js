@@ -3,6 +3,12 @@ function save_options() {
     var sovleMe = document.getElementById('solve').checked;
     var submitMe = document.getElementById('submit').checked;
     var username = document.getElementById('username').value;
+    var min = document.getElementById('minuteSelect');
+    var min = min.options[min.selectedIndex].value;
+    var sec = document.getElementById('secondSelect');
+    var sec = sec.options[sec.selectedIndex].value;
+    console.log(min);
+    console.log(sec);
     if (submitMe) {
         if (username === null || username === "" || !username) {
             alert("If you wish to auto submit you must specify a username");
@@ -12,7 +18,11 @@ function save_options() {
     chrome.storage.sync.set({
         solveForUser: sovleMe,
         submitForUser: submitMe,
-        username: username
+        username: username,
+        time: {
+            min: min,
+            sec: sec,
+        }
 
     }, function() {
         // Update status to let user know options were saved.
@@ -32,10 +42,17 @@ function restore_options() {
         solveForUser: true,
         submitForUser: false,
         username: "",
+        time: {
+            min: 0,
+            sec: 0
+        }
     }, function(items) {
+       // console.log(items);
         document.getElementById('username').value = items.username;
-        document.getElementById('solveMe').checked = items.solveForUser;
-        document.getElementById('submitMe').checked = items.submitForUser;
+        document.getElementById('solve').checked = items.solveForUser;
+        document.getElementById('submit').checked = items.submitForUser;
+        document.getElementById('minuteSelect').selectedIndex = items.time.min;
+        document.getElementById('secondSelect').selectedIndex = items.time.sec;
     });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
